@@ -4,18 +4,35 @@ import { Table, Tag, Space } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 // import { getAllMovieThunk } from "../../redux/slice/movieSlice";
 import { Link } from "react-router-dom";
+import https from "../../services/configServ";
+import { END_POINT } from "../../constant/endpoint.constant";
 
 const ProjectManager = () => {
   const dispatch = useDispatch();
-//   const { listMovie } = useSelector((state) => state.movieSlice);
+
+  const [listProject, setListProject] = useState(null);
+
+  useEffect(() => {
+    https
+      .get(END_POINT.PROJECT.GET_LIST())
+      .then(({ data }) => {
+        console.log(data);
+        setListProject(data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  //   const { listMovie } = useSelector((state) => state.movieSlice);
   // const [listMovie, setListMovie] = useState([]);
   const columns = [
     {
       // title là tên cột
-      title: "Mã phim",
+      title: "Project Name",
       // dataIndex giúp bắt được thuộc tính cần lấy dữ liệu của phần tử trong mảng
-      dataIndex: "maPhim",
-      key: "maPhim",
+      dataIndex: "title",
+      key: "title",
       // render: (text, record, index) => {
       //   // console.log(text);
       //   // console.log(record);
@@ -23,84 +40,80 @@ const ProjectManager = () => {
       // },
     },
     {
-      title: "Hình ảnh",
-      dataIndex: "hinhAnh",
-      key: "hinhAnh",
-      render: (url) => {
-        return <img className="w-20" src={url} />;
-      },
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      // render: (url) => {
+      //   return <img className="w-20" src={url} />;
+      // },
     },
     {
-      title: "Tên phim",
-      dataIndex: "tenPhim",
-      key: "tenPhim",
+      title: "Due_Date",
+      dataIndex: "due_date",
+      key: "due_date",
     },
     {
-      title: "Mô tả",
-      key: "moTa",
-      dataIndex: "moTa",
+      title: "Description",
+      key: "descrition",
+      dataIndex: "description",
       render: (text) => {
         return <p className="w-56 line-clamp-2">{text}</p>;
       },
     },
     {
-      title: "Hành động",
+      title: "Action",
       key: "hanhDong",
       render: (_, record) => {
         return (
           <div className="space-x-3">
             <button
-            //   onClick={() => {
-            //     quanLyPhimServ
-            //       .deleteMovie(record.maPhim)
-            //       .then(() => {
-            //         // gọi render lại phim khi đã xoá
-            //         quanLyPhimServ.getAllMovie().then((res) => {
-            //           dispatch(getAllMovieThunk());
-            //         });
-            //       })
-            //       .catch((err) => {
-            //         console.log(err);
-            //       });
-            //   }}
+              //   onClick={() => {
+              //     quanLyPhimServ
+              //       .deleteMovie(record.maPhim)
+              //       .then(() => {
+              //         // gọi render lại phim khi đã xoá
+              //         quanLyPhimServ.getAllMovie().then((res) => {
+              //           dispatch(getAllMovieThunk());
+              //         });
+              //       })
+              //       .catch((err) => {
+              //         console.log(err);
+              //       });
+              //   }}
               className="text-white bg-red-600 py-2 px-4 rounded-md"
             >
-              Xoá
+              Delete
             </button>
-            <Link
-              to={"add-movie"}
-              className="text-white bg-yellow-600 py-2 px-4 rounded-md"
-            >
-              Sửa
-            </Link>
-            <Link
-              to={`/admin/taolichchieu/${record.maPhim}`}
-              className="ml-5 py-2 px-5 bg-black text-white rounded-md hover:bg-opacity-70 duration-500"
-            >
-              Tạo lịch chiếu <span aria-hidden="true">→</span>
+            <Link className="text-white bg-yellow-600 py-2 px-4 rounded-md">
+              Fix
             </Link>
           </div>
         );
       },
     },
   ];
-//   useEffect(() => {
-//     // gọi dữ liệu thông qua phương thức được tạo ra từ thunk
-//     dispatch(
-//       getAllMovieThunk({
-//         hoTen: "Đông",
-//         gioiTinh: "Nam",
-//       })
-//     );
-//   }, []);
+  //   useEffect(() => {
+  //     // gọi dữ liệu thông qua phương thức được tạo ra từ thunk
+  //     dispatch(
+  //       getAllMovieThunk({
+  //         hoTen: "Đông",
+  //         gioiTinh: "Nam",
+  //       })
+  //     );
+  //   }, []);
 
   return (
     <div>
-      <h2 className="font-bold text-2xl mb-5">Danh sách phim</h2>
+      <h2 className="font-bold text-2xl mb-5">Project Table</h2>
       <input type="text" />
       <Table
         columns={columns}
-        // dataSource={listMovie}
+        dataSource={listProject?.map((item, i) => {
+          return {
+            key: i,
+            ...item,
+          };
+        })}
         pagination={{
           // pageSize giúp giới hạn số phần tử trên mỗi trang
           pageSize: 5,

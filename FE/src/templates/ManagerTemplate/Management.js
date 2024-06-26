@@ -64,23 +64,42 @@ const Management = () => {
         />
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        >
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
-        </Header>
+      <Header
+              className="flex justify-between"
+              style={{
+                background: colorBgContainer,
+                padding: '10px 20px',
+                fontSize: '30px',
+              }}
+            >
+              <Button
+                className="btnTrigger btnCollapse"
+                type="dashed"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  fontSize: "16px",
+                  // width: 64,
+                  height: 46,
+                }}
+              />
+              <span className="flex " style={{ fontWeight: "600",fontSize:"12px" }}>
+            {/* {curUser ?  <p>Wellcome {curUser?.name}</p>  : <p>Wellcome {USER?.name}</p> }
+               
+                <Avatar
+                  size={30}
+                  className="mx-3 my-3 "
+                  style={{ fontSize: "12px", color: "black",fontWeight:"400" }}
+                >
+                  {curUser ? curUser.name.slice(0, 2).toUpperCase() : USER?.name?.slice(0, 2).toUpperCase() }
+                </Avatar> */}
+                <Link to="/login" >
+                {/* onClick={handleLogout} */}
+                  {/* <LogoutOutlined  style={{ fontSize: '20px', color: "red" }}/> */}
+                  Hello
+                </Link>
+              </span>
+            </Header>
         <Content
           style={{
             margin: "24px 16px",

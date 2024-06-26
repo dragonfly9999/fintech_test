@@ -17,7 +17,7 @@ function App() {
 
             {/* path="addNew" */}
           </Route>
-          <Route element={<LoginFintech />} path="/login" />
+          <Route index element={<LoginFintech />} />
           <Route element={<SignUpFintech />} path="/signUp" />
         </Routes>
       </>
